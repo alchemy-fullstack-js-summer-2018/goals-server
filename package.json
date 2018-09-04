@@ -1,8 +1,12 @@
 {
-  "name": "fullstack-server",
+  "name": "goals-server",
   "version": "1.0.0",
-  "description": "Fullstack server for Gorts",
-  "main": "index.js",
+  "description": "Readme Here! =====",
+  "main": "server.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
   "scripts": {
     "lint": "eslint .",
     "pretest": "npm run lint",
@@ -18,14 +22,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rbtprograms/fullstack-server.git"
+    "url": "git+https://github.com/arthurjen/goals-server.git"
   },
-  "author": "Injoong Yoon <injoongyoon@gmail.com>",
+  "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/rbtprograms/fullstack-server/issues"
+    "url": "https://github.com/arthurjen/goals-server/issues"
   },
-  "homepage": "https://github.com/rbtprograms/fullstack-server#readme",
+  "homepage": "https://github.com/arthurjen/goals-server#readme",
   "devDependencies": {
     "chai": "^4.1.2",
     "chai-http": "^4.0.0",
