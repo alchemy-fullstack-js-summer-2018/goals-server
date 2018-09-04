@@ -1,0 +1,46 @@
+{
+  "name": "goals-server",
+  "version": "1.0.0",
+  "description": "back-end",
+  "main": "server.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "pretest": "npm run lint",
+    "test": "npm run mocha",
+    "mocha": "mocha --recursive",
+    "test:dev": "nodemon --exec 'npm run mocha'",
+    "test:unit": "nodemon --exec 'npm run mocha -- ./test/unit'",
+    "test:e2e": "nodemon --exec 'npm run mocha -- ./test/e2e'",
+    "start": "node server.js",
+    "start:dev": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Quintam26/goals-server.git"
+  },
+  "author": "Mario Quintana",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Quintam26/goals-server/issues"
+  },
+  "homepage": "https://github.com/Quintam26/goals-server#readme",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "chai-http": "^4.2.0",
+    "eslint": "^5.5.0",
+    "mocha": "^5.2.0",
+    "nodemon": "^1.18.4"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "jsonwebtoken-promisified": "^1.0.3",
+    "mongoose": "^5.2.13",
+    "morgan": "^1.9.0"
+  }
+}
