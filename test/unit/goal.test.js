@@ -3,11 +3,12 @@ const { assert } = chai;
 const Goal = require('../../lib/models/goal');
 // const { getErrors } = require('./helpers');
 
-describe('Goal model', () => {
+describe.only('Goal model', () => {
 
     it('validates good model', () => {
         const data = {
-            // example full, good data
+            name: 'train for marathon',
+            complete: false
         };
         const goal = new Goal(data);
 
