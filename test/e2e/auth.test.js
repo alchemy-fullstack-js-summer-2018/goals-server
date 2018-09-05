@@ -44,5 +44,16 @@ describe.only('Auth API', () => {
             });
     });
 
-    
+    it.only('Gives 400 on signup of same email', () => {
+        return request
+            .post('/api/auth/signup')
+            .send({
+                email: 'test@test.com',
+                password: 'abc'
+            })
+            .then(res => {
+                assert.equal(res.status, 400);
+                assert.equal(res.body.error, 'email in use');
+            });
+    });
 });
