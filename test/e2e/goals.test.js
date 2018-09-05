@@ -1,6 +1,7 @@
 const { assert } = require('chai');
 const request = require('./request');
 const { dropCollection  } = require('./_db');
+// const { verify } = require('../../lib/auth/token-service');
 
 const checkOk = res => {
     assert.equal(res.status, 200, 'expected 200 http status code');
@@ -10,6 +11,7 @@ const checkOk = res => {
 describe('Goals API', () => {
 
     beforeEach(() => dropCollection('goals'));
+    beforeEach(() => dropCollection('users'));
 
     let goal1 = {
         name: 'train for marathon',
@@ -21,8 +23,22 @@ describe('Goals API', () => {
         complete: false
     };
 
+    let token = null;
+
     beforeEach(() => {
-        return request.post('/api/goals')
+        return request
+            .post('/api/auth/signup')
+            .send({
+                email: 'test@test.com',
+                password: 'abc'
+            })
+            .then(({ body }) => token = body.token);
+    });
+
+    beforeEach(() => {
+        return request
+            .post('/api/me/goals')
+            .set('Authorization', token)
             .send(goal1)
             .then(checkOk)
             .then(({ body }) => {
@@ -38,7 +54,9 @@ describe('Goals API', () => {
     });
 
     beforeEach(() => {
-        return request.post('/api/goals')
+        return request
+            .post('/api/me/goals')
+            .set('Authorization', token)
             .send(goal2)
             .then(checkOk)
             .then(({ body }) => {
@@ -58,9 +76,10 @@ describe('Goals API', () => {
         assert.isOk(goal1._id);
     });
 
-    it('gets all goals', () => {
+    it.only('gets all goals', () => {
         return request
-            .get('/api/goals')
+            .get('/api/me/goals')
+            .set('Authorization', token)
             .then(checkOk)
             .then(({ body }) => {
                 assert.deepEqual(body, [goal1, goal2]);
@@ -70,7 +89,8 @@ describe('Goals API', () => {
     it('updates a goal', () => {
         goal1.complete = true;
         return request
-            .put(`/api/goals/${goal1._id}`)
+            .put(`/api/me/goals/${goal1._id}`)
+            .set('Authorization', token)
             .send(goal1)
             .then(checkOk)
             .then(({ body }) => {
