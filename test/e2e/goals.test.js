@@ -64,7 +64,7 @@ describe('Goals API', () => {
         assert.isOk(goal1._id);
     });
 
-    it('gets all goals', () => {
+    it.skip('gets all goals', () => {
         return request
             .get('/api/me/goals')
             .set('Authorization', token)
