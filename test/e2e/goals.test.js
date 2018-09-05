@@ -13,6 +13,20 @@ describe('Goals API', () => {
     beforeEach(() => dropCollection('goals'));
     beforeEach(() => dropCollection('users'));
 
+    let token = null;
+
+    let user = {
+        email: 'test@test.com',
+        password: 'abc'
+    };
+
+    beforeEach(() => {
+        return request
+            .post('/api/auth/signup')
+            .send(user)
+            .then(({ body }) => token = body.token);
+    });
+
     let goal1 = {
         name: 'train for marathon',
         complete: false
@@ -23,18 +37,6 @@ describe('Goals API', () => {
         complete: false
     };
 
-    let token = null;
-
-    beforeEach(() => {
-        return request
-            .post('/api/auth/signup')
-            .send({
-                email: 'test@test.com',
-                password: 'abc'
-            })
-            .then(({ body }) => token = body.token);
-    });
-
     beforeEach(() => {
         return request
             .post('/api/me/goals')
@@ -42,13 +44,6 @@ describe('Goals API', () => {
             .send(goal1)
             .then(checkOk)
             .then(({ body }) => {
-                const { _id, __v } = body;
-                assert.ok(_id);
-                assert.equal(__v, 0);
-                assert.deepEqual(body, {
-                    _id, __v,
-                    ...goal1
-                });
                 goal1 = body;
             });
     });
@@ -60,28 +55,22 @@ describe('Goals API', () => {
             .send(goal2)
             .then(checkOk)
             .then(({ body }) => {
-                const { _id, __v } = body;
-                assert.ok(_id);
-                assert.equal(__v, 0);
-                assert.deepEqual(body, {
-                    _id, __v,
-                    ...goal2
-                });
                 goal2 = body;
             });
     });
     
 
-    it('saves a goal', () => {
+    it.only('saves a goal', () => {
         assert.isOk(goal1._id);
     });
 
-    it.only('gets all goals', () => {
+    it('gets all goals', () => {
         return request
             .get('/api/me/goals')
             .set('Authorization', token)
             .then(checkOk)
             .then(({ body }) => {
+                console.log('BODY', body);
                 assert.deepEqual(body, [goal1, goal2]);
             });
     });
