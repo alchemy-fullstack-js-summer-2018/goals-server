@@ -45,11 +45,21 @@ describe('Goals API', () => {
 
     it('posts a goal by the signed-in user', () => {
         return request
-            .post('/api/me/goals/')
+            .post('/api/me/goals')
             .set('Authorization', token)
             .send(goal)
             .then(({ body }) => {
                 assert.isOk(body.goal);
+            });
+    });
+
+    it('allows the user to update a goal', () => {
+        return request
+            .put('/api/me/goals')
+            .set('Authorization', token)
+            .send({ completed: true })
+            .then(({ body }) => {
+                assert.equal(body.completed, true);
             });
     });
 });
