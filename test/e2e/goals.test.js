@@ -53,4 +53,16 @@ describe.only('goals API', () => {
             });
     });
 
+    it('updates a goal', () => {
+        testGoal.completed = true;
+        return request
+            .put('/api/me/goals')
+            .set('Authorization', token)
+            .send(testGoal)
+            .then(({ body }) => {
+                testGoal = body;
+                assert.isTrue(testGoal.completed);
+            });
+    });
+
 });
