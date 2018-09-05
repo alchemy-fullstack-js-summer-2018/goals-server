@@ -1,7 +1,6 @@
 const { assert } = require('chai');
 const request = require('./request');
 const { dropCollection  } = require('./_db');
-// const { verify } = require('../../lib/auth/token-service');
 
 const checkOk = res => {
     assert.equal(res.status, 200, 'expected 200 http status code');
@@ -64,7 +63,7 @@ describe('Goals API', () => {
         assert.isOk(goal1._id);
     });
 
-    it.skip('gets all goals', () => {
+    it('gets all goals', () => {
         return request
             .get('/api/me/goals')
             .set('Authorization', token)
@@ -74,7 +73,7 @@ describe('Goals API', () => {
             });
     });
 
-    it.skip('updates a goal', () => {
+    it('updates a goal', () => {
         goal1.complete = true;
         return request
             .put(`/api/me/goals/${goal1._id}`)
