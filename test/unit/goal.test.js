@@ -2,6 +2,7 @@ const chai = require('chai');
 const { assert } = chai;
 const Goal = require('../../lib/models/goal');
 const { getErrors } = require('./helpers');
+const { Types } = require('mongoose');
 
 describe('Goal model', () => {
 
@@ -9,6 +10,7 @@ describe('Goal model', () => {
         const data = {
             name: 'train for marathon',
             complete: false,
+            userId: Types.ObjectId()
         };
         const goal = new Goal(data);
 
