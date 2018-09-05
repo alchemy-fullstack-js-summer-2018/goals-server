@@ -46,4 +46,15 @@ describe('Goals API', () => {
             });
     });
 
+    it('toggles complete of goal', () => {
+        const { _id } = savedGoal;
+        return request
+            .post(`/api/me/goals/${_id}`)
+            .set('Authorization', token)
+            .then(checkOk)
+            .then(({ body }) => {
+                assert.deepEqual(body.completed, true);
+            });
+    });
+
 });
