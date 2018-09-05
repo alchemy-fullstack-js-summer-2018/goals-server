@@ -7,7 +7,7 @@ const checkOk = res => {
     return res;
 };
 
-describe.only('Goals API', () => {
+describe('Goals API', () => {
 
     beforeEach(() => dropCollection('goals'));
 
@@ -58,7 +58,7 @@ describe.only('Goals API', () => {
         assert.isOk(goal1._id);
     });
 
-    it.only('gets all goals', () => {
+    it('gets all goals', () => {
         return request
             .get('/api/goals')
             .then(checkOk)
@@ -67,5 +67,14 @@ describe.only('Goals API', () => {
             });
     });
 
-    //TODO: UPDATE
+    it('updates a goal', () => {
+        goal1.complete = true;
+        return request
+            .put(`/api/goals/${goal1._id}`)
+            .send(goal1)
+            .then(checkOk)
+            .then(({ body }) => {
+                assert.equal(body.complete, goal1.complete);
+            });
+    });
 });
