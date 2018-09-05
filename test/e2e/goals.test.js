@@ -64,13 +64,12 @@ describe('Goals API', () => {
         assert.isOk(goal1._id);
     });
 
-    it.skip('gets all goals', () => {
+    it('gets all goals', () => {
         return request
             .get('/api/me/goals')
             .set('Authorization', token)
             .then(checkOk)
             .then(({ body }) => {
-                console.log('BODY', body);
                 assert.deepEqual(body, [goal1, goal2]);
             });
     });
