@@ -17,7 +17,6 @@ describe('auth API', () => {
                 password: 'test123'
             })
             .then(({ body }) => {
-                console.log(body);
                 token = body.token;
             });
     });
@@ -26,7 +25,12 @@ describe('auth API', () => {
         assert.ok(token);
     });
 
-    it('logins a user', () => {
-        
+    it('verifies a user', () => {
+        return request
+            .get('/api/auth/verify')
+            .set('Authorization', token)
+            .then(({ body }) => {
+                assert.isOk(body.verified);
+            });
     });
 });
