@@ -3,7 +3,7 @@ const request = require('./request');
 const { checkOk } = request;
 const { dropCollection, createToken } = require('./db');
 
-describe('Goals API', () => {
+describe('Users API', () => {
     beforeEach(() => dropCollection('users'));
     beforeEach(() => dropCollection('goals'));
     
@@ -25,30 +25,18 @@ describe('Goals API', () => {
             });
     });
 
-    it('saves a goal', () => {
-        assert.equal(savedGoal.goal, 'finish Gorts');
-        assert.isOk(savedGoal.createdAt);
-        assert.isOk(savedGoal.updatedAt);
-    });
-    
-    it('gets a goal', () => {
+    it('gets all users', () => {
+        const expected = {
+            _id: savedGoal.userId,
+            completed: 1,
+            total: 1
+        };
         return request
-            .get('/api/me/goals')
+            .get('/api/users')
             .set('Authorization', token)
             .then(checkOk)
             .then(({ body }) => {
-                assert.deepEqual(body, [savedGoal]);
-            });
-    });
-
-    it('toggles complete of goal', () => {
-        const { _id } = savedGoal;
-        return request
-            .post(`/api/me/goals/${_id}`)
-            .set('Authorization', token)
-            .then(checkOk)
-            .then(({ body }) => {
-                assert.deepEqual(body.completed, true);
+                assert.deepEqual(body, [expected]);
             });
     });
 
