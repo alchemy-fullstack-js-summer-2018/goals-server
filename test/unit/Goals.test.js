@@ -11,9 +11,7 @@ describe('Goals model', () => {
             details: 'End of September is coming up fast. Time to start planning for the next steps.',
             complete: false
         };
-        const expected = {
-            data
-        };
+        const expected = data;
         const goal = new Goal(data);
         
         expected._id = goal._id;
