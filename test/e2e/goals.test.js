@@ -1,7 +1,6 @@
 const { assert } = require('chai');
 const request = require('../request');
 const { dropCollection } = require('./db');
-// const { Types } = require('mongoose');
 
 describe('goals API', () => {
 
@@ -33,7 +32,6 @@ describe('goals API', () => {
                 title: 'Finish making gorts'
             })
             .then(({body}) => {
-                // console.log(body);
                 testGoal = body;
 
             });
