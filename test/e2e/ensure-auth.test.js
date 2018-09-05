@@ -1,24 +1,24 @@
-// const { assert } = require('chai');
-// const request = require('../request');
-// const { dropCollection } = require('../db');
+const { assert } = require('chai');
+const request = require('../request');
+const { dropCollection } = require('../db');
 
-// describe('Auth API', () => {
+describe('Auth API', () => {
 
-//     beforeEach(() => dropCollection('users'));
+    beforeEach(() => dropCollection('users'));
 
-//     let token = null;
+    let token = null;
 
-//     beforeEach(() => {
-//         return request
-//             .post('/api/auth/signup')
-//             .send({
-//                 email: 'me@email.com',
-//                 password: 'abc'
-//             })
-//             .then(({ body }) => token = body.token);
-//     });
+    beforeEach(() => {
+        return request
+            .post('/api/auth/signup')
+            .send({
+                email: 'me@email.com',
+                password: 'abc'
+            })
+            .then(({ body }) => token = body.token);
+    });
 
-//     it('signup', () => {
-//         assert.ok(token);
-//     });
-// });
+    it('signup', () => {
+        assert.ok(token);
+    });
+});

@@ -1,4 +1,4 @@
-const connect = require('../../lib/connect');
+const connect = require('../lib/connect');
 const url = 'mongodb://localhost:27017/goals';
 const mongoose = require('mongoose');
 
