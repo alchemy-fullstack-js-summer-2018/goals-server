@@ -1,6 +1,6 @@
 const { assert } = require('chai');
-const { getErrors } = require('./helpers.js');
-const User = require('../lib/models/User');
+const { getErrors } = require('../helpers.js');
+const User = require('../../lib/models/User.js');
 
 describe('user model', () => {
     const credentials = {
@@ -17,7 +17,7 @@ describe('user model', () => {
         user.generateHash(credentials.password);
     });
 
-    it.only('validates a good model', () => {
+    it('validates a good model', () => {
         assert.equal(user.name, credentials.name);
         assert.equal(user.email, credentials.email);
         assert.isDefined(user.hash, 'hash is defined');
