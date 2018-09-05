@@ -60,11 +60,11 @@ describe('Goals API', () => {
     });
     
 
-    it.only('saves a goal', () => {
+    it('saves a goal', () => {
         assert.isOk(goal1._id);
     });
 
-    it('gets all goals', () => {
+    it.skip('gets all goals', () => {
         return request
             .get('/api/me/goals')
             .set('Authorization', token)
@@ -75,7 +75,7 @@ describe('Goals API', () => {
             });
     });
 
-    it('updates a goal', () => {
+    it.skip('updates a goal', () => {
         goal1.complete = true;
         return request
             .put(`/api/me/goals/${goal1._id}`)
