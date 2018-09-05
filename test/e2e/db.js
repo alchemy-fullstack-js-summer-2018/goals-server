@@ -1,5 +1,5 @@
-const connect = require('../../lib/util/connect');
 const mongoose = require('mongoose');
+const connect = require('../../lib/util/connect');
 
 before(() => connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/goals'));
 after(() => mongoose.connection.close());
