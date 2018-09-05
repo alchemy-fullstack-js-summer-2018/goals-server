@@ -3,7 +3,7 @@ const { assert } = chai;
 const Goal = require('../../lib/models/goal');
 const { getErrors } = require('./helpers');
 
-describe.only('Goal model', () => {
+describe('Goal model', () => {
 
     it('validates good model', () => {
         const data = {
