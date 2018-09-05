@@ -42,7 +42,7 @@ describe('Goals API', () => {
             .set('Authorization', token)
             .then(checkOk)
             .then(({ body }) => {
-                assert.deepEqual(body, savedGoal);
+                assert.deepEqual(body, [savedGoal]);
             });
     });
 
