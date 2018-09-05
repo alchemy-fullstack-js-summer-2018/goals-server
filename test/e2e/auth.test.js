@@ -44,7 +44,7 @@ describe.only('Auth API', () => {
             });
     });
 
-    it.only('Gives 400 on signup of same email', () => {
+    it('Gives 400 on signup of same email', () => {
         return request
             .post('/api/auth/signup')
             .send({
@@ -56,4 +56,31 @@ describe.only('Auth API', () => {
                 assert.equal(res.body.error, 'email in use');
             });
     });
+
+    it('gives 401 on non-existent email', () => {
+        return request
+            .post('/api/auth/signin')
+            .send({
+                email: 'bad@test.com',
+                password: 'abc456'
+            })
+            .then(res => {
+                assert.equal(res.status, 401);
+                assert.equal(res.body.error, 'Invalid email or password');
+            });
+    });
+
+    it('Gives 401 on bad password', () => {
+        return request
+            .post('/api/auth/signin')
+            .send({
+                email: 'test@test.com',
+                password: 'bad'
+            })
+            .then(res => {
+                assert.equal(res.status, 401);
+                assert.equal(res.body.error, 'Invalid email or password');
+            });
+    });
+
 });
