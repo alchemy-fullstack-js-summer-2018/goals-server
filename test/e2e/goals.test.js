@@ -18,7 +18,7 @@ const goal = {
 };
 
 describe('Goals API', () => {
-    let token;
+    let token, postedGoal;
 
     beforeEach(() => dropCollection('users'));
     beforeEach(() => dropCollection('goals'));
@@ -34,26 +34,27 @@ describe('Goals API', () => {
             });
     });
 
-    beforeEach(() => {
-        return request
-            .get('/api/auth/verify')
-            .set('Authorization', token)
-            .then(({ body }) => {
-                assert.isOk(body.valid);
-            });
-    });
-
     it('posts a goal by the signed-in user', () => {
         return request
             .post('/api/me/goals')
             .set('Authorization', token)
             .send(goal)
             .then(({ body }) => {
+                postedGoal = body;
                 assert.isOk(body.goal);
             });
     });
 
-    it('allows the user to update a goal', () => {
+    xit('gets a user\'s goal by id', () => {
+        return request
+            .get('/api/me/goals/')
+            .set('Authorization', token)
+            .then(({ body }) => {
+                assert.deepEqual(body, postedGoal);
+            });
+    });
+
+    xit('allows the user to update a goal', () => {
         return request
             .put('/api/me/goals')
             .set('Authorization', token)
