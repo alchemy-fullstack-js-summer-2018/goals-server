@@ -21,4 +21,16 @@ describe.only('Auth API', () => {
     it('signup', () => {
         assert.ok(token);
     });
+
+    it('signin', () => {
+        return request
+            .post('/api/auth/signin')
+            .send({
+                email: 'test@test.com',
+                password: 'abc'
+            })
+            .then(({ body }) => {
+                assert.ok(body.token);
+            });
+    });
 });
