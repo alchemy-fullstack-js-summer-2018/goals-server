@@ -2,13 +2,15 @@ const chai = require('chai');
 const { assert } = chai;
 const Goal = require('../../lib/models/goal');
 const { getErrors } = require('./helpers');
+const { Types } = require('mongoose');
 
-describe('Goal model', () => {
+describe.only('Goal model', () => {
 
     it('validates good model', () => {
         const data = {
             name: 'train for marathon',
-            complete: false
+            complete: false,
+            userId: Types.ObjectId()
         };
         const goal = new Goal(data);
 
@@ -20,10 +22,11 @@ describe('Goal model', () => {
 
     it('validates required fields', () => {
         const goal = new Goal({});
-        const errors = getErrors(goal.validateSync(), 2);
+        const errors = getErrors(goal.validateSync(), 3);
 
         assert.equal(errors.name.kind, 'required');
         assert.equal(errors.complete.kind, 'required');
+        assert.equal(errors.userId.kind, 'required');
     });
 
 });

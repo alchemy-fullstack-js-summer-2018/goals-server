@@ -1,7 +1,7 @@
 const { assert } = require('chai');
 const User = require('../../lib/models/user');
 
-describe.only('User model', () => {
+describe('User model', () => {
 
     const data = {
         email: 'mariah@test.com',
