@@ -4,7 +4,7 @@ const Goal = require('../../lib/models/goal');
 const { getErrors } = require('./helpers');
 const { Types } = require('mongoose');
 
-describe.only('Goal model', () => {
+describe('Goal model', () => {
 
     it('validates good model', () => {
         const data = {
