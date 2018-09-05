@@ -21,7 +21,7 @@ describe('Goals API', () => {
     let token, postedGoal;
 
     beforeEach(() => dropCollection('users'));
-    // beforeEach(() => dropCollection('goals'));
+    beforeEach(() => dropCollection('goals'));
 
     beforeEach(() => {
         return request
