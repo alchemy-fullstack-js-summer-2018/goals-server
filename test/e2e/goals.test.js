@@ -21,7 +21,7 @@ describe('Goals API', () => {
     let token, postedGoal;
 
     beforeEach(() => dropCollection('users'));
-    beforeEach(() => dropCollection('goals'));
+    // beforeEach(() => dropCollection('goals'));
 
     beforeEach(() => {
         return request
@@ -34,7 +34,7 @@ describe('Goals API', () => {
             });
     });
 
-    it('posts a goal by the signed-in user', () => {
+    beforeEach(() => {
         return request
             .post('/api/me/goals')
             .set('Authorization', token)
@@ -45,13 +45,17 @@ describe('Goals API', () => {
             });
     });
 
-    xit('allows the user to update a goal', () => {
+    it('posts a goal properly', () => {
+        assert.isOk(postedGoal);
+    });
+
+    it('allows the user to update a goal', () => {
+        postedGoal.completed = true;
         return request
-            .put(`/api/me/goals/${postedGoal._id}`)
+            .put('/api/me/goals')
             .set('Authorization', token)
-            .send({ completed: true })
+            .send(postedGoal)
             .then(({ body }) => {
-                console.log(body);
                 assert.equal(body.completed, true);
             });
     });
