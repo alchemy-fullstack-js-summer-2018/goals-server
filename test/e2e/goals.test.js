@@ -13,12 +13,15 @@ const user = {
     password: 'abc'
 };
 
+const goal = {
+    goal: 'finish this lab'
+};
+
 describe('Goals API', () => {
+    let token;
 
     beforeEach(() => dropCollection('users'));
     beforeEach(() => dropCollection('goals'));
-
-    let token;
 
     beforeEach(() => {
         return request
@@ -37,6 +40,16 @@ describe('Goals API', () => {
             .set('Authorization', token)
             .then(({ body }) => {
                 assert.isOk(body.valid);
+            });
+    });
+
+    it('posts a goal by the signed-in user', () => {
+        return request
+            .post('/api/me/goals/')
+            .set('Authorization', token)
+            .send(goal)
+            .then(({ body }) => {
+                assert.isOk(body.goal);
             });
     });
 });
