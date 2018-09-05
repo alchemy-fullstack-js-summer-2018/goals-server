@@ -20,4 +20,8 @@ describe.only('User model', () => {
         assert.notEqual(user.hash, password);
     });
 
+    it('compares password to hash', () => {
+        assert.isOk(user.comparePassword(password));
+    });
+
 });
