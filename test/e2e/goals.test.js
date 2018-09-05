@@ -45,21 +45,13 @@ describe('Goals API', () => {
             });
     });
 
-    xit('gets a user\'s goal by id', () => {
-        return request
-            .get('/api/me/goals/')
-            .set('Authorization', token)
-            .then(({ body }) => {
-                assert.deepEqual(body, postedGoal);
-            });
-    });
-
     xit('allows the user to update a goal', () => {
         return request
-            .put('/api/me/goals')
+            .put(`/api/me/goals/${postedGoal._id}`)
             .set('Authorization', token)
             .send({ completed: true })
             .then(({ body }) => {
+                console.log(body);
                 assert.equal(body.completed, true);
             });
     });
