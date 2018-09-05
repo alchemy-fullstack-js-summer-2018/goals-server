@@ -1,7 +1,7 @@
 const chai = require('chai');
 const { assert } = chai;
 const Goal = require('../../lib/models/goal');
-// const { getErrors } = require('./helpers');
+const { getErrors } = require('./helpers');
 
 describe.only('Goal model', () => {
 
@@ -16,6 +16,14 @@ describe.only('Goal model', () => {
         delete json._id;
         assert.deepEqual(json, data);
         assert.isUndefined(goal.validateSync());
+    });
+
+    it('validates required fields', () => {
+        const goal = new Goal({});
+        const errors = getErrors(goal.validateSync(), 2);
+
+        assert.equal(errors.name.kind, 'required');
+        assert.equal(errors.complete.kind, 'required');
     });
 
 });
