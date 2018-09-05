@@ -16,10 +16,10 @@ describe.only('Goals API', () => {
         complete: false
     };
 
-    // let goal2 = {
-    //     name: 'watch GOT',
-    //     complete: false
-    // };
+    let goal2 = {
+        name: 'watch GOT',
+        complete: false
+    };
 
     beforeEach(() => {
         return request.post('/api/goals')
@@ -36,12 +36,36 @@ describe.only('Goals API', () => {
                 goal1 = body;
             });
     });
+
+    beforeEach(() => {
+        return request.post('/api/goals')
+            .send(goal2)
+            .then(checkOk)
+            .then(({ body }) => {
+                const { _id, __v } = body;
+                assert.ok(_id);
+                assert.equal(__v, 0);
+                assert.deepEqual(body, {
+                    _id, __v,
+                    ...goal2
+                });
+                goal2 = body;
+            });
+    });
     
 
     it('saves a goal', () => {
         assert.isOk(goal1._id);
     });
 
-    //TODO: GET ALL
+    it.only('gets all goals', () => {
+        return request
+            .get('/api/goals')
+            .then(checkOk)
+            .then(({ body }) => {
+                assert.deepEqual(body, [goal1, goal2]);
+            });
+    });
+
     //TODO: UPDATE
 });
