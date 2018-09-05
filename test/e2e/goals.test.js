@@ -3,7 +3,7 @@ const request = require('../request');
 const { dropCollection } = require('./db');
 // const { Types } = require('mongoose');
 
-describe.only('goals API', () => {
+describe('goals API', () => {
 
     beforeEach(() => dropCollection('users'));
     beforeEach(() => dropCollection('goals'));
@@ -48,11 +48,10 @@ describe.only('goals API', () => {
             .get('/api/me/goals')
             .set('Authorization', token)
             .then(({ body }) => {
-                console.log('**GET**', body);
                 assert.isOk(body);
             });
     });
-
+    
     it('updates a goal', () => {
         testGoal.completed = true;
         return request
