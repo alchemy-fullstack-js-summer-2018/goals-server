@@ -2,14 +2,14 @@ const { assert } = require('chai');
 const request = require('./request');
 const { dropCollection } = require('./db');
 
-describe.skip('Auth API', () => {
+describe('Auth API', () => {
     beforeEach(() => dropCollection('users'));
     
     
     let token, user;
     beforeEach(() => {
         return request
-            .post('/api/signup')
+            .post('/api/auth/signup')
             .send({
                 name: 'mark-o-lope',
                 email: 'test@test.com',

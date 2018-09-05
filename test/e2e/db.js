@@ -1,9 +1,9 @@
+require('dotenv').config();
 const connect = require('../../lib/utils/connect');
-const url = 'mongodb://localhost:27017/goals';
 const mongoose = require('mongoose');
 const request = require('./request');
 
-before(() => connect(url) || 'mongodb://localhost:27017/goals');    
+before(() => connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/goals'));    
 after(() => mongoose.connection.close());
 
 module.exports = {
@@ -16,7 +16,7 @@ module.exports = {
 
     createToken(data = { name: 'markalope', email: 'test@test.com', password: 'Abc123' }) {
         return request
-            .post('/api/auth/signup')
+            .post('/api/signup')
             .send(data)
             .then(res => res.body.token);
     }
