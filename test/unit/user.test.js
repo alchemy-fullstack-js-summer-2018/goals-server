@@ -1,20 +1,23 @@
-const chai = require('chai');
-const { assert } = chai;
+const { assert } = require('chai');
 const User = require('../../lib/models/user');
-// const { getErrors } = require('./helpers');
 
-describe('User model', () => {
+describe.only('User model', () => {
 
-    it('validates good model', () => {
-        const data = {
-            // example full, good data
-        };
-        const user = new User(data);
+    const data = {
+        email: 'mariah@test.com',
+    };
 
-        const json = user.toJSON();
-        delete json._id;
-        assert.deepEqual(json, data);
-        assert.isUndefined(user.validateSync());
+    const password = 'abc123';
+    let user = null;
+    
+    beforeEach(() => {
+        user = new User(data);
+        user.generateHash(password);
+    });
+
+    it('generates hash from password', () => {
+        assert.ok(user.hash);
+        assert.notEqual(user.hash, password);
     });
 
 });
