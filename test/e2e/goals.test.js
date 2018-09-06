@@ -36,7 +36,21 @@ describe.only('Goals API', () => {
                 assert.deepEqual(body, { ...goal, _id, __v });
                 goal = body;
             });
+    });
 
+    it('gets a goal by id', () => {
+        return request.post('/api/goals')
+            .set('Authorization', token)
+            .send(goal)
+            .then(checkOk)
+            .then(({ body }) => {
+                goal = body;
+                return request.get(`/api/goals/${goal._id}`)
+                    .set('Authorization', token);
+            })
+            .then(({ body }) => {
+                assert.deepEqual(body, goal);
+            });
     });
 
 });
