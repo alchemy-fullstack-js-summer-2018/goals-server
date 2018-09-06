@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "eslint .",
     "pretest": "npm run lint",
-    "test": "exit 0",
+    "test": "npm run mocha",
     "mocha": "mocha --recursive",
     "test:dev": "nodemon --exec 'npm run mocha'",
     "test:unit": "nodemon --exec 'npm run mocha -- ./test/unit'",
@@ -27,7 +27,7 @@
   "devDependencies": {
     "babel-eslint": "^9.0.0",
     "chai": "^4.1.2",
-    "chai-http": "^3.0.0",
+    "chai-http": "^4.2.0",
     "eslint": "^4.8.0",
     "mocha": "^4.0.0",
     "nodemon": "^1.12.1"
@@ -37,7 +37,7 @@
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
     "jsonwebtoken-promisified": "^1.0.3",
-    "mongoose": "^4.12.3",
+    "mongoose": "^5.2.13",
     "morgan": "^1.9.0"
   }
 }
