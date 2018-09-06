@@ -51,10 +51,13 @@ describe('Goals API', () => {
             });
     });
 
-    // it('updates a goal', () => {
-    //     return request
-    //         .put(`api/me/goals/${testGoal._id}`)
-    //         .set('Authorization', token)
-    //         .then(checkOk)
-    // })
+    it('updates completed status', () => {
+        return request
+            .post(`/api/me/goals/${testGoal._id}`)
+            .set('Authorization', token)
+            .then(checkOk)
+            .then(({ body }) => {
+                assert.isOk(body.completed);
+            });
+    });
 });
