@@ -49,4 +49,13 @@ describe.only('Goals API', () => {
             .then(({ body }) => assert.deepEqual(body, [goal, anotherGoal]));
     });
 
+    it('updates a goal', () => {
+        goal.goal = 'Finish the lab asap';
+        return request.put(`/api/me/goals/${goal._id}`)
+            .set('Authorization', token)
+            .send(goal)
+            .then(checkOk)
+            .then(({ body }) => assert.equal(body.goal, goal.goal));
+    });
+
 });
