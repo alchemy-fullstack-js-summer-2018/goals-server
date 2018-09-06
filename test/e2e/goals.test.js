@@ -7,7 +7,7 @@ const checkOk = res => {
     return res;
 };
 
-describe.only('Goals API', () => {
+describe('Goals API', () => {
 
     beforeEach(() => dropCollection('users'));
     beforeEach(() => dropCollection('goals'));
