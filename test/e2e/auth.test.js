@@ -8,26 +8,7 @@ const userOne = {
     password: '12345678'
 };
 
-// const userTwo = {
-//     name: 'Robyn',
-//     email: 'robyn@stef.com',
-//     password: '12345678'
-// };
-
-const badPassword = {
-    name: 'Robyn',
-    email: 'robyn@stef.com',
-    password: '22345678'
-};
-
-const badEmail = {
-    name: 'Robyn',
-    email: 'robin@stef.com',
-    password: '12345678'
-};
-
 let tokenOne;
-// let tokenTwo;
 
 describe('Auth Api', () => {
     beforeEach(() => dropCollection('users'));
