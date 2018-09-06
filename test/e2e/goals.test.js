@@ -9,26 +9,20 @@ describe.only('Goals API', () => {
 
     let token = '';
     before(() => createToken().then(t => token = t));
-    
-    // const userId = Types.ObjectId().toHexString();
-
-    let goal = { goal: 'Finish this lab' };
-
-    let anotherGoal = { goal: 'Get a job' };
 
     const checkOk = res => {
         if(!res.ok) throw res.error;
         return res;
     };
-
+    
+    let goal = { goal: 'Finish this lab' };
+    let anotherGoal = { goal: 'Get a job' };
     beforeEach(() => {
-        return request.post('/api/goals')
+        return request.post('/api/me/goals')
             .set('Authorization', token)
             .send(goal)
             .then(checkOk)
             .then(({ body }) => {
-                delete body.createdAt;
-                delete body.updatedAt;
                 const { _id, __v } = body;
                 assert.ok(_id);
                 assert.equal(__v, 0);
@@ -37,13 +31,11 @@ describe.only('Goals API', () => {
     });
 
     beforeEach(() => {
-        return request.post('/api/goals')
+        return request.post('/api/me/goals')
             .set('Authorization', token)
             .send(anotherGoal)
             .then(checkOk)
             .then(({ body }) => {
-                delete body.createdAt;
-                delete body.updatedAt;
                 const { _id, __v } = body;
                 assert.ok(_id);
                 assert.equal(__v, 0);
@@ -51,18 +43,10 @@ describe.only('Goals API', () => {
             });
     });
 
-    it('gets a goal by id', () => {
-        return request.get(`/api/goals/${goal._id}`)
-            .set('Authorization', token)
-            .then(({ body }) => {
-                assert.deepEqual(body.goal, goal.goal);
-            });
-    });
-
     it('gets all goals by user', () => {
-        return request.get('/api/goals/user')
+        return request.get('/api/me/goals')
             .set('Authorization', token)
-            .then(({ body }) => console.log('BODY', body));
+            .then(({ body }) => assert.deepEqual(body, [goal, anotherGoal]));
     });
 
 });
