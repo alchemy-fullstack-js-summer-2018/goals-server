@@ -5,6 +5,7 @@ describe('User model', () => {
 
     const data = {
         email: 'mariah@test.com',
+        name: 'mariah'
     };
 
     const password = 'abc123';
