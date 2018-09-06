@@ -3,6 +3,7 @@ const request = require('./request');
 const { dropCollection } = require('./db');
 
 describe('Auth API', () => {
+
     beforeEach(() => dropCollection('users'));
 
     let token;
@@ -22,5 +23,14 @@ describe('Auth API', () => {
 
     it('Signs up a user', () => {
         assert.ok(token);
+    });
+
+    it('Verifies user', () => {
+        return request
+            .get('/api/auth/verify')
+            .set('Authorization', token)
+            .then(({ body }) => {
+                assert.isOk(body.verified);
+            });
     });
 });
