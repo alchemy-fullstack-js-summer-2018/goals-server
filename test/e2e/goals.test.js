@@ -2,13 +2,13 @@ const { assert } = require('chai');
 const request = require('./request');
 const { dropCollection, createToken } = require('./db');
 
-describe.only('Goals API', () => {
+describe('Goals API', () => {
 
     beforeEach(() => dropCollection('users'));
     beforeEach(() => dropCollection('goals'));
 
     let token = '';
-    before(() => createToken().then(t => token = t));
+    beforeEach(() => createToken().then(t => token = t));
 
     const checkOk = res => {
         if(!res.ok) throw res.error;
