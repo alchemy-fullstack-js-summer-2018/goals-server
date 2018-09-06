@@ -4,44 +4,35 @@ const { dropCollection, createToken } = require('./db');
 
 describe('Goals API', () => {
 
+    const checkOk = res => {
+        if(!res.ok) throw res.error;
+        return res;
+    };
+
     beforeEach(() => dropCollection('users'));
     beforeEach(() => dropCollection('goals'));
 
     let token = '';
     beforeEach(() => createToken().then(t => token = t));
+  
+    function saveGoal(data) {
+        return request.post('/api/me/goals')
+            .set('Authorization', token)
+            .send(data)
+            .then(checkOk)
+            .then(({ body }) => {
+                const { _id, __v } = body;
+                assert.ok(_id);
+                assert.equal(__v, 0);
+                return body;
+            });
+    }
 
-    const checkOk = res => {
-        if(!res.ok) throw res.error;
-        return res;
-    };
-    
     let goal = { goal: 'Finish this lab' };
     let anotherGoal = { goal: 'Get a job' };
-    beforeEach(() => {
-        return request.post('/api/me/goals')
-            .set('Authorization', token)
-            .send(goal)
-            .then(checkOk)
-            .then(({ body }) => {
-                const { _id, __v } = body;
-                assert.ok(_id);
-                assert.equal(__v, 0);
-                goal = body;
-            });
-    });
 
-    beforeEach(() => {
-        return request.post('/api/me/goals')
-            .set('Authorization', token)
-            .send(anotherGoal)
-            .then(checkOk)
-            .then(({ body }) => {
-                const { _id, __v } = body;
-                assert.ok(_id);
-                assert.equal(__v, 0);
-                anotherGoal = body;
-            });
-    });
+    beforeEach(() => saveGoal(goal).then(g => goal = g));
+    beforeEach(() => saveGoal(anotherGoal).then(g => anotherGoal = g));
 
     it('gets all goals by user', () => {
         return request.get('/api/me/goals')
