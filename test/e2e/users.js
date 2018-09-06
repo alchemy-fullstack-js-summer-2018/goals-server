@@ -28,7 +28,7 @@ describe('Users API', () => {
     it('gets all users', () => {
         const expected = {
             _id: savedGoal.userId,
-            // name: 'mister',
+            name: 'mister',
             completed: 1,
             total: 1
         };
