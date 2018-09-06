@@ -29,7 +29,7 @@ const badEmail = {
 let tokenOne;
 // let tokenTwo;
 
-xdescribe('Auth Api', () => {
+describe('Auth Api', () => {
     beforeEach(() => dropCollection('users'));
 
     beforeEach(() => {

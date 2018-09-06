@@ -2,7 +2,7 @@ const { assert } = require('chai');
 const request = require('../request');
 const { dropCollection } = require('../db');
 
-describe.skip('Users API', () => {
+describe('Users API', () => {
 
     let user;
     let token;
@@ -36,7 +36,6 @@ describe.skip('Users API', () => {
             })
             .then(({ body }) => {
                 assert.ok(body._id);
-                goal1 = body;
             });
     });
 
@@ -51,7 +50,6 @@ describe.skip('Users API', () => {
             })
             .then(({ body }) => {
                 assert.ok(body._id);
-                goal1 = body;
             });
     });
 

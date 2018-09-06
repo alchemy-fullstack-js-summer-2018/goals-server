@@ -64,19 +64,20 @@ describe('Goals API', () => {
             });
     });
     it('gets goal by id', () => {
-        console.log('goal1', goal1);
+        console.log('***goal1 ID****', goal1._id);
         return request  
-            .get('/api/me/goals')
+            .get(`/api/me/goals/${goal1._id}`)
             .then(({ body }) => {
-                // assert.deepEqual(body, goal1);
+            // assert.deepEqual(body, goal1);
                 console.log('***get goal by id', body);
+                console.log('***goal1 ID****', goal1._id);
             });
     });
 
     it('updates a goal', () => {
         goal1.completed = true;
         return request  
-            .put('/api/me/goals/')
+            .put(`/api/me/goals/${goal1._id}`)
             .set('Authorization', token)
             .send(goal1)
             .then(({ body }) => {
