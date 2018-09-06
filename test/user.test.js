@@ -34,5 +34,5 @@ describe('user model', () => {
     assert.equal(errors.name.kind, 'required');
     assert.equal(errors.email.kind, 'required');
     assert.equal(errors.hash.kind, 'required');
-  })
+  });
 });
