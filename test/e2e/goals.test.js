@@ -7,10 +7,10 @@ const checkOk = res => {
     return res;
 };
 
-describe('Goals API', () => {
+describe.only('Goals API', () => {
 
-    beforeEach(() => dropCollection('goals'));
     beforeEach(() => dropCollection('users'));
+    beforeEach(() => dropCollection('goals'));
 
     let token = null;
 
@@ -18,13 +18,6 @@ describe('Goals API', () => {
         email: 'test@test.com',
         password: 'abc'
     };
-
-    beforeEach(() => {
-        return request
-            .post('/api/auth/signup')
-            .send(user)
-            .then(({ body }) => token = body.token);
-    });
 
     let goal1 = {
         name: 'train for marathon',
@@ -35,6 +28,13 @@ describe('Goals API', () => {
         name: 'watch GOT',
         complete: false
     };
+
+    beforeEach(() => {
+        return request
+            .post('/api/auth/signup')
+            .send(user)
+            .then(({ body }) => token = body.token);
+    });
 
     beforeEach(() => {
         return request
@@ -59,10 +59,6 @@ describe('Goals API', () => {
     });
     
 
-    it('saves a goal', () => {
-        assert.isOk(goal1._id);
-    });
-
     it('gets all goals', () => {
         return request
             .get('/api/me/goals')
@@ -71,6 +67,11 @@ describe('Goals API', () => {
             .then(({ body }) => {
                 assert.deepEqual(body, [goal1, goal2]);
             });
+    });
+
+    it('saves a goal', () => {
+        assert.isOk(goal1._id);
+        assert.isOk(goal2._id);
     });
 
     it('updates a goal', () => {
