@@ -15,6 +15,7 @@ describe.only('Goals API', () => {
     let token = null;
 
     let user = {
+        name: 'mariah',
         email: 'test@test.com',
         password: 'abc'
     };
