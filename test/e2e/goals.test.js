@@ -1,6 +1,5 @@
 const { assert } = require('chai');
 const request = require('./request');
-const { Types } = require('mongoose');
 const { dropCollection, createToken } = require('./db');
 
 describe.only('Goals API', () => {
@@ -10,19 +9,19 @@ describe.only('Goals API', () => {
 
     let token = '';
     before(() => createToken().then(t => token = t));
+    
+    // const userId = Types.ObjectId().toHexString();
 
-    let goal = {
-        user: Types.ObjectId().toHexString(),
-        goal: 'Finish this lab',
-        completed: false
-    };
+    let goal = { goal: 'Finish this lab' };
+
+    let anotherGoal = { goal: 'Get a job' };
 
     const checkOk = res => {
         if(!res.ok) throw res.error;
         return res;
     };
 
-    it('saves a goal', () => {
+    beforeEach(() => {
         return request.post('/api/goals')
             .set('Authorization', token)
             .send(goal)
@@ -33,24 +32,37 @@ describe.only('Goals API', () => {
                 const { _id, __v } = body;
                 assert.ok(_id);
                 assert.equal(__v, 0);
-                assert.deepEqual(body, { ...goal, _id, __v });
                 goal = body;
             });
     });
 
-    it('gets a goal by id', () => {
+    beforeEach(() => {
         return request.post('/api/goals')
             .set('Authorization', token)
-            .send(goal)
+            .send(anotherGoal)
             .then(checkOk)
             .then(({ body }) => {
-                goal = body;
-                return request.get(`/api/goals/${goal._id}`)
-                    .set('Authorization', token);
-            })
-            .then(({ body }) => {
-                assert.deepEqual(body, goal);
+                delete body.createdAt;
+                delete body.updatedAt;
+                const { _id, __v } = body;
+                assert.ok(_id);
+                assert.equal(__v, 0);
+                anotherGoal = body;
             });
+    });
+
+    it('gets a goal by id', () => {
+        return request.get(`/api/goals/${goal._id}`)
+            .set('Authorization', token)
+            .then(({ body }) => {
+                assert.deepEqual(body.goal, goal.goal);
+            });
+    });
+
+    it('gets all goals by user', () => {
+        return request.get('/api/goals/user')
+            .set('Authorization', token)
+            .then(({ body }) => console.log('BODY', body));
     });
 
 });
