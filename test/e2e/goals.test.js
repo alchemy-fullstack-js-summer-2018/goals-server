@@ -34,4 +34,14 @@ describe('Goals API', () => {
         assert.equal(newGoal.name, 'Get a job');
     });
 
+    it('Gets a goal', () => {
+        return request
+            .get('/api/me/goals')
+            .set('Authorization', token)
+            .then(checkOk)
+            .then(({ body }) => {
+                assert.deepEqual(body, [newGoal]);
+            });
+    });
+
 });
