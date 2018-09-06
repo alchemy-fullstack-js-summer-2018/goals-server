@@ -47,13 +47,11 @@ describe('Goals API', () => {
     it('Updates a goal', () => {
         newGoal.name = 'Profit';
 
-        return request.put(`/api/me/goals/${newGoal._id}`)
+        return request
+            .put('/api/me/goals')
+            .set('Authorization', token)
             .send(newGoal)
             .then(checkOk)
-            .then(({ body }) => {
-                assert.deepEqual(body, newGoal);
-                return request.get(`/api/me/goals/${newGoal._id}`);
-            })
             .then(({ body }) => {
                 assert.equal(body.name, newGoal.name);
             });
