@@ -1,12 +1,14 @@
+
 const { assert } = require('chai');
 
-const getErrors = (validation, numberExpected) => {
-  assert.isDefined(validation);
-  const errors = validation.errors;
-  assert.equal(Object.keys(errors).length, numberExpected);
+const getErrors = (validation, expected) => {
+  assert.isDefined(validation, 'expected validation errors but got none');
+  const { errors } = validation;
+  assert.isDefined(errors);
+  if(expected !== undefined) {
+    assert.equal(Object.keys(errors).length, expected);
+  }
   return errors;
 };
 
-module.exports = {
-  getErrors
-};
+module.exports = { getErrors };
