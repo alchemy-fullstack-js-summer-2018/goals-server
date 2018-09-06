@@ -33,4 +33,17 @@ describe('Auth API', () => {
                 assert.isOk(body.verified);
             });
     });
+
+    it('Signs a user in', () => {
+        return request
+            .post('/api/auth/signin')
+            .send({
+                email: 'joe@schmoe.com',
+                password: 'abc'
+            })
+            .then(({ body }) => {
+                assert.equal(body.name, 'Joe Schmoe');
+                assert.ok(body.token);
+            });
+    });
 });
