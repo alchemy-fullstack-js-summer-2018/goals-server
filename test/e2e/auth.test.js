@@ -22,7 +22,7 @@ describe('Auth API', () => {
       });
   });
 
-  it('signs up a user', () => {
+  it.skip('signs up a user', () => {
     assert.equal(user.name, 'Tony Robbins');
     assert.isOk(token);
 
