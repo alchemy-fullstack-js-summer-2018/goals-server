@@ -20,15 +20,18 @@ describe.only('Goals API', () => {
         password: 'abc'
     };
 
-    let goal1 = {
+    let data1 = {
         name: 'train for marathon',
         complete: false
     };
 
-    let goal2 = {
+    let data2 = {
         name: 'watch GOT',
         complete: false
     };
+
+    let goal1;
+    let goal2;
 
     beforeEach(() => {
         return request
@@ -37,28 +40,23 @@ describe.only('Goals API', () => {
             .then(({ body }) => token = body.token);
     });
 
-    beforeEach(() => {
+    function save(data) {
         return request
             .post('/api/me/goals')
             .set('Authorization', token)
-            .send(goal1)
+            .send(data)
             .then(checkOk)
-            .then(({ body }) => {
-                goal1 = body;
-            });
-    });
+            .then(({ body }) => body);
+    }
 
-    beforeEach(() => {
-        return request
-            .post('/api/me/goals')
-            .set('Authorization', token)
-            .send(goal2)
-            .then(checkOk)
-            .then(({ body }) => {
-                goal2 = body;
-            });
-    });
+    beforeEach(() => save(data1).then(goal => goal1 = goal));
+    beforeEach(() => save(data2).then(goal => goal2 = goal));
     
+
+    it('saves a goal', () => {
+        assert.isOk(goal1._id);
+        assert.isOk(goal2._id);
+    });
 
     it('gets all goals', () => {
         return request
@@ -68,11 +66,6 @@ describe.only('Goals API', () => {
             .then(({ body }) => {
                 assert.deepEqual(body, [goal1, goal2]);
             });
-    });
-
-    it('saves a goal', () => {
-        assert.isOk(goal1._id);
-        assert.isOk(goal2._id);
     });
 
     it('updates a goal', () => {
