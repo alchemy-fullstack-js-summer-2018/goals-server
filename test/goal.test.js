@@ -42,7 +42,7 @@
 
 
 
-// describe.skip('Goals API', () => {
+// describe('Goals API', () => {
   
 //   beforeEach(() => mongoose.connection.dropDatabase());
 
