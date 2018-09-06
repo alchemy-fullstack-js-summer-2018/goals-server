@@ -60,35 +60,4 @@ describe('Auth Api', () => {
                 assert.ok(body.token);
             });
     });
-
-    xit('Gives 400 on signup of same email', () => {
-        return request
-            .post('/api/auth/signup')
-            .send(userOne)
-            .then(res => {
-                assert.equal(res.status, 400);
-                assert.equal(res.body.error, 'email already in use');
-            });
-    });
-
-    xit('Gives 401 on non-existent email', () => {
-        return request
-            .post('/api/auth/signin')
-            .send(badEmail)
-            .then(res => {
-                assert.equal(res.status, 401);
-                assert.equal(res.body.error, 'Invalid Login');
-            });
-    });
-
-    xit('Gives 401 on bad password', () => {
-        return request
-            .post('/api/auth/signin')
-            .send(badPassword)
-            .then(res => {
-                assert.equal(res.status, 401);
-                assert.equal(res.body.error, 'Invalid Login');
-            });
-    });
-
 });
