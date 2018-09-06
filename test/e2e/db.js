@@ -1,5 +1,5 @@
 require('dotenv').config({ path: '.test/e2e/.env' });
-const connect = require('../../lib/util/connect');
+const connect = require('../../lib/utils/connect');
 const mongoose = require('mongoose');
 const request = require('./request');
 
@@ -15,7 +15,7 @@ module.exports = {
             });
     },
 
-    createToken(data = { email: 'kg@me.com', password: 'abc'}) {
+    createToken(data = { name: 'Kevin', email: 'kg@me.com', password: 'abc' }) {
         return request
             .post('/api/auth/signup')
             .send(data)

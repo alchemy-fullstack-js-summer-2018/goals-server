@@ -20,10 +20,9 @@ describe('Goal model', () => {
 
     it('Validates required fields', () => {
         const goal = new Goal({});
-        const errors = getErrors(goal.validateSync(), 4);
+        const errors = getErrors(goal.validateSync(), 3);
         assert.equal(errors.name.kind, 'required'); 
-        assert.equal(errors.description.kind, 'required'); 
-        assert.equal(errors.completed.kind, 'required'); 
+        assert.equal(errors.description.kind, 'required');
         assert.equal(errors.userId.kind, 'required'); 
     });
 });
