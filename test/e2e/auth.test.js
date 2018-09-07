@@ -12,7 +12,8 @@ describe('Auth API', () => {
         return request
             .post('/api/auth/signup')
             .send({
-                email: 'test@test.com',
+                name: 'mariah',
+                email: 'me@me.com',
                 password: 'abc'
             })
             .then(({ body }) => token = body.token);
@@ -36,7 +37,8 @@ describe('Auth API', () => {
         return request
             .post('/api/auth/signin')
             .send({
-                email: 'test@test.com',
+                name: 'mariah',
+                email: 'me@me.com',
                 password: 'abc'
             })
             .then(({ body }) => {
@@ -48,7 +50,8 @@ describe('Auth API', () => {
         return request
             .post('/api/auth/signup')
             .send({
-                email: 'test@test.com',
+                name: 'mariah',
+                email: 'me@me.com',
                 password: 'abc'
             })
             .then(res => {
@@ -61,8 +64,9 @@ describe('Auth API', () => {
         return request
             .post('/api/auth/signin')
             .send({
-                email: 'bad@test.com',
-                password: 'abc456'
+                name: 'mariah',
+                email: 'bad@me.com',
+                password: 'abc'
             })
             .then(res => {
                 assert.equal(res.status, 401);
@@ -74,7 +78,8 @@ describe('Auth API', () => {
         return request
             .post('/api/auth/signin')
             .send({
-                email: 'test@test.com',
+                name: 'mariah',
+                email: 'me@me.com',
                 password: 'bad'
             })
             .then(res => {
