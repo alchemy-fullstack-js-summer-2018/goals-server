@@ -3,7 +3,7 @@ const Goal = require('../../lib/models/goal');
 const { getErrors } = require('./helpers');
 const { Types } = require('mongoose');
 
-describe('Goal model', () => {
+describe.only('Goal model', () => {
 
     it('validates good model', () => {
         const data = {
@@ -21,10 +21,9 @@ describe('Goal model', () => {
 
     it('validates required fields', () => {
         const goal = new Goal({});
-        const errors = getErrors(goal.validateSync(), 3);
+        const errors = getErrors(goal.validateSync(), 2);
 
         assert.equal(errors.name.kind, 'required');
-        assert.equal(errors.complete.kind, 'required');
         assert.equal(errors.userId.kind, 'required');
     });
 
