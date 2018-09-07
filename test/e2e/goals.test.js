@@ -48,5 +48,5 @@ describe('Goals API', () => {
             .then(checkOk)
             .then(({ body }) => assert.equal(body.goal, goal.goal));
     });
-
+    
 });
