@@ -30,7 +30,7 @@ describe('Auth API', () => {
             .get('/api/auth/verify')
             .set('Authorization', token)
             .then(({ body }) => {
-                assert.isOk(body.verified);
+                assert.isOk(body.valid);
             });
     });
 
