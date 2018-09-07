@@ -38,7 +38,9 @@ describe.only('Users API', () => {
         return request.get('/api/users')
             .set('Authorization', token)
             .then(({ body }) => {
-                console.log(body);
+                delete body[0]._id;
+                assert.deepEqual(body[0], { name: 'test', goals: [goal.goal, anotherGoal.goal] });
+        
             });
     });
 });
