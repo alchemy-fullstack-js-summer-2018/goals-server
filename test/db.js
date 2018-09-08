@@ -1,10 +1,10 @@
 
 const connect = require('../lib/connect');
-// const url = 'mongodb://localhost:27017/goals';
+const url = 'mongodb://localhost:27017/goals-test';
 const mongoose = require('mongoose');
 const request = require('./request');
 
-before(() => connect('mongodb://localhost:27017/goals'));
+before(() => connect(url));
 after(() => mongoose.connection.close());
 
 module.exports = {
@@ -15,9 +15,9 @@ module.exports = {
       });
   },
 
-  createToken(data = { name: 'Tony Robins', email: 'robbins@rob.com', password: 'abc123' }) {
+  createToken(data = { email: 'me@me.com', password: 'abc' }) {
     return request
-      .post('/api/signup')
+      .post('/api/auth/signup')
       .send(data)
       .then(res => res.body.token);
   }
