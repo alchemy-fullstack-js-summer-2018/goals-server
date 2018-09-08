@@ -1,6 +1,6 @@
 const { assert } = require('chai');
-const { getErrors } = require('./helpers');
-const User = require('../lib/models/user');
+const { getErrors } = require('../helpers');
+const User = require('../../lib/models/user');
 
 describe('user model', () => {
 
