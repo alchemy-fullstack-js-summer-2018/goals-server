@@ -2,7 +2,7 @@ const { assert } = require('chai');
 const { getErrors } = require('../helpers');
 const User = require('../../lib/models/user');
 
-describe('user model', () => {
+describe.skip('user model', () => {
 
   const credentials = {    
     name: 'Tony Robbins',
