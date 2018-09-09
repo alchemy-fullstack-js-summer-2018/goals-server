@@ -50,5 +50,12 @@ describe('Auth API', () => {
       });
   });
 
-
+  it('signin user', () => {
+    return request
+      .post('/api/auth/signin')
+      .send(userOne)
+      .then(({ body }) => {
+        assert.ok(body.token);
+      });
+  });
 });
