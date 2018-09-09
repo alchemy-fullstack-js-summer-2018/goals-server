@@ -1,95 +1,84 @@
-// const { request, save } = require('./request');
-// const mongoose = require('mongoose');
-// const assert = require('chai').assert;
+const { assert } = require('chai');
+const request = require('../request');
+const { dropCollection } = require('../db');
 
-// const { dropCollection } = require('./db');
-// const tokenService = require('../../lib/auth/token-service');
+describe('Goals API', () => {
 
-// const makeSimpleByID = (goal, user) => {
-//   const simple = {
-//     _id: goal._id,
-//     subject: goal.subject,
-//     goalList: goal.goalList
-//   };
+  let user;
+  let goal1;
 
-//   if(user) {
-//     simple.user = {
-//       _id: user.id,
-//       name: 'Pele'
-//     };
-//   }
-//   return simple;
-// };
+  let token;
 
-// let exercise;
-// let photography;
-// let userOne;
-// let tokenOne;
-// let userTwo;
-// let tokenTwo;
+  beforeEach(() => dropCollection('goals'));
+  beforeEach(() => dropCollection('users'));
 
-// const tonyRobbins = {
-//   name: 'Tony Robbins',
-//   email: 'robbins@rob.com',
-//   password: 'abc123'
-// };
+  beforeEach(() => {
+    return request
+      .post('/api/auth/signup')
+      .send({
+        name: 'Tony',
+        email: 'tony@robbins.com',
+        password: 'pelepele',
+        goals: []
+      })
+      .then(({ body }) => {
+        token = body.token;
+        user = body;
+      });
+  });
 
-// const wayneDyer = {
-//   name: 'Wayne Dyer',
-//   email: 'wayne@dyer.com',
-//   password: 'def456'
-// };
+  it('saves a user', () => {
+    assert.ok(user);
+    assert.ok(token);
+  });
 
+  beforeEach(() => {
+    return request
+      .post('/api/me/goals')
+      .set('Authorization', token)
+      .send({
+        goal: 'exercise',
+        completed: false,
+        author: user._id
+      })
+      .then(({ body }) => {
+        goal1 = body;
+        assert.deepEqual(body, {
+          ...goal1,
+          // _id, __v
+        });
+      });
+  });
 
+  it('saves a goal', () => {
+    assert.ok(goal1);
+  });
 
-// describe('Goals API', () => {
-  
-//   beforeEach(() => mongoose.connection.dropDatabase());
+  it('gets goals', () => {
+    return request  
+      .get('/api/me/goals')
+      .then(({ body }) => {
+        assert.deepEqual(body.length, 1);
+      });
+  });
 
-//   beforeEach(() => dropCollection('goals'));
-//   beforeEach(() => dropCollection('users'));
+  it('gets a goal by id', () => {
+    return request
+      .get(`/api/me/goals/${goal1._id}`)
+      .then(({ body }) => {
+        assert.deepEqual(body, goal1);
+      });
+  });
 
-//   beforeEach(() => {
-//     return request
-//       .post('/api/auth/signup')
-//       .send(tonyRobbins)
-//       .then(({ body }) => {
-//         tokenOne = body.token;
-//         tokenService.verify(tokenOne)
-//           .then(userBody => userOne = userBody);
-//       });
-//   });
+  it('updates a goal', () => {
+    goal1.completed = true;
+    return request
+      .put(`/api/me/goals/${goal1._id}`)
+      .set('Authorization', token)
+      .send(goal1)
+      .then(({ body }) => {
+        assert.equal(body.completed, true);
+      });
+  });
 
-//   beforeEach(() => {
-//     return request
-//       .post('/api/auth/signup')
-//       .send(wayneDyer)
-//       .then(({ body }) => {
-//         tokenTwo = body.token;
-//         tokenService.verify(tokenTwo)
-//           .then(userBody => userTwo = userBody);
-//       });
-//   });
-
-//   beforeEach(() => {
-//     return save('goals', {
-//       subject: 'exercise',
-//       goalList: ['run', 'swimming']
-//     }, tokenOne)
-//       .then(data => exercise  = data);
-//   });
-  
-//   beforeEach(() => {
-//     return save('goals', {
-//       subject: 'photography',
-//       goalList: ['camera', 'film']
-//     }, tokenOne)
-//       .then(data => photography  = data);
-//   });
-
-
-//   it('saves a goal', () => {
-//     assert.isOk(exercise._id);
-//   });
-
-// });
+});
