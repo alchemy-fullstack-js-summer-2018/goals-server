@@ -1,5 +1,5 @@
-const request = require('../request');
 const { assert } = require('chai');
+const request = require('../request');
 const { dropCollection } = require('../db');
 
 const userOne = {
@@ -43,12 +43,12 @@ describe('Auth API', () => {
 
   it('verifies auth', () => {
     return request
-      .get('./api/auth/verify')
+      .get('/api/auth/verify')
       .set('Authorization', tokenOne)
       .then(({ body }) => {
         assert.isOk(body.valid);
       });
   });
 
-  
+
 });
