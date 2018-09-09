@@ -37,27 +37,18 @@ describe('Auth API', () => {
       .then(({ body }) => tokenOne = body.token);
   });
 
-  // beforeEach(() => {
-  //   return request
-  //     .post('/api/auth/signup')
-  //     .send({
-  //       name: 'Tony Robbins',
-  //       email: 'robbins@rob.com',
-  //       password: 'abc123',
-  //     })
-  //     .then(({ body }) => {
-  //       user = body;
-  //       token = body.token;
-  //     });
-  // });
-
-
   it('signs up a user', () => {
     assert.ok(tokenOne);
   });
 
-  // it('signs in a user', () => {
-  //   return request
-  //     .post('/api/auth/signup')
-  // })
+  it('verifies auth', () => {
+    return request
+      .get('./api/auth/verify')
+      .set('Authorization', tokenOne)
+      .then(({ body }) => {
+        assert.isOk(body.valid);
+      });
+  });
+
+  
 });
