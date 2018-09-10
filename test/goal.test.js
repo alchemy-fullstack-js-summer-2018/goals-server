@@ -7,7 +7,7 @@ const mock = {
 };
 
 describe('Goal model', () => {
-    it('valdesciptionates good model', () => {
+    it('validates good model', () => {
         const goal = new Goal(mock);
         assert.equal(goal.name, mock.name);
         assert.equal(goal.description, mock.description);
