@@ -24,4 +24,5 @@ describe('Auth API', () => {
     it('signs up a user', () => {
         assert.ok(tokenOne);
     });
+    
 });
