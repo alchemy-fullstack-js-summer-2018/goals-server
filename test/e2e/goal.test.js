@@ -34,7 +34,7 @@ describe('Goals API', () => {
 
   beforeEach(() => {
     return request
-      .post('/api/me/goals')
+      .post('/api/goals')
       .set('Authorization', token)
       .send({
         goal: 'exercise',
@@ -56,7 +56,7 @@ describe('Goals API', () => {
 
   it('gets goals', () => {
     return request  
-      .get('/api/me/goals')
+      .get('/api/goals')
       .then(({ body }) => {
         assert.deepEqual(body.length, 1);
       });
@@ -64,7 +64,7 @@ describe('Goals API', () => {
 
   it('gets a goal by id', () => {
     return request
-      .get(`/api/me/goals/${goal1._id}`)
+      .get(`/api/goals/${goal1._id}`)
       .then(({ body }) => {
         assert.deepEqual(body, goal1);
       });
@@ -73,7 +73,7 @@ describe('Goals API', () => {
   it('updates a goal', () => {
     goal1.completed = true;
     return request
-      .put(`/api/me/goals/${goal1._id}`)
+      .put(`/api/goals/${goal1._id}`)
       .set('Authorization', token)
       .send(goal1)
       .then(({ body }) => {
