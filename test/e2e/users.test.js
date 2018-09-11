@@ -1,66 +1,44 @@
 const { assert } = require('chai');
 const request = require('../request');
-const { dropCollection } = require('../db');
+const { checkOk } = request;
+const { dropCollection, createToken } = require('../db');
 
 describe('Users API', () => {
 
-    let user;
-    let token;
-
-    beforeEach(() => dropCollection('goals'));
     beforeEach(() => dropCollection('users'));
+    beforeEach(() => dropCollection('goals'));
+
+    let token;
+    let testGoal;
 
     beforeEach(() => {
-        return request
-            .post('/api/auth/signup')
-            .send({
-                name: 'Stef',
-                email: 'stef@robyn.com',
-                password: '12345678',
-                goals: []
-            })
-            .then(({ body }) => {
-                token = body.token;
-                user = body;
-            });
+        return createToken()
+            .then(t => token = t);
     });
 
     beforeEach(() => {
         return request
             .post('/api/me/goals')
             .set('Authorization', token)
-            .send({
-                goal: 'Travel',
-                completed: false,
-                author: user._id
-            })
+            .send({ goal: 'get good' })
+            .then(checkOk)
             .then(({ body }) => {
-                assert.ok(body._id);
+                testGoal = body;
             });
     });
 
-    beforeEach(() => {
-        return request
-            .post('/api/me/goals')
-            .set('Authorization', token)
-            .send({
-                goal: 'Let it be',
-                completed: false,
-                author: user._id
-            })
-            .then(({ body }) => {
-                assert.ok(body._id);
-            });
-    });
-
-    it('gets all users with their goals', () => {
+    it('gets users', () => {
         return request
             .get('/api/users')
+            .set('Authorization', token)
+            .then(checkOk)
             .then(({ body }) => {
-                console.log('users***', body);
-                assert.equal(body.length, 1);
-                assert.equal(body[0].name, 'Stef');
-                assert.equal(body[0].goals.length, 2);
+                assert(body, [{
+                    _id: testGoal.author,
+                    completed: 0,
+                    total: 1,
+                    name: 'Mr. White' 
+                }]);
             });
     });
 });
