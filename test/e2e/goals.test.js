@@ -1,88 +1,63 @@
 const { assert } = require('chai');
 const request = require('../request');
-const { dropCollection } = require('../db');
+const { checkOk } = request;
+const { dropCollection, createToken } = require('../db');
 
 describe('Goals API', () => {
-
-    let user;
-    let goal1;
+    beforeEach(() => dropCollection('users'));
+    beforeEach(() => dropCollection('goals'));
 
     let token;
-    
-
-    beforeEach(() => dropCollection('goals'));
-    beforeEach(() => dropCollection('users'));
+    let testGoal;
+    let testGoal2;
 
     beforeEach(() => {
-        return request
-            .post('/api/auth/signup')
-            .send({
-                name: 'Stf',
-                email: 'stef@robyn.com',
-                password: '12345678',
-                goals:[]
-            })
-            .then(({ body }) => {
-                token = body.token;
-                user = body;
-            });
-    });
-
-    it('saves a user', () => {
-        assert.ok(user);
+        return createToken()
+            .then(t => token = t);
     });
 
     beforeEach(() => {
         return request
             .post('/api/me/goals')
             .set('Authorization', token)
-            .send({
-                goal: 'get it',
-                completed: false,
-                author: user._id
-            })
+            .send({ goal: 'get good' })
+            .then(checkOk)
             .then(({ body }) => {
-                const { _id, __v } = body;
-                goal1 = body;
-                assert.deepEqual(body, {
-                    ...goal1,
-                    _id, __v
-                });
+                testGoal = body;
+            });
+    });
+    beforeEach(() => {
+        return request
+            .post('/api/me/goals')
+            .set('Authorization', token)
+            .send({ goal: 'get it' })
+            .then(checkOk)
+            .then(({ body }) => {
+                testGoal2 = body;
             });
     });
 
     it('saves a goal', () => {
-        assert.ok(goal1);
+        assert.equal(testGoal.goal, 'get good');
     });
 
-    it('gets goals', () => {
-        return request  
+    it('gets a goal', () => {
+        return request
             .get('/api/me/goals')
+            .set('Authorization', token)
+            .then(checkOk)
             .then(({ body }) => {
-                assert.deepEqual(body.length, 1);
-                console.log('**** gets all goals', body);
-            });
-    });
-    it('gets goal by id', () => {
-        console.log('***goal1 ID****', goal1._id);
-        return request  
-            .get(`/api/me/goals/${goal1._id}`)
-            .then(({ body }) => {
-            // assert.deepEqual(body, goal1);
-                console.log('***get goal by id', body);
-                console.log('***goal1 ID****', goal1._id);
+                assert.deepEqual(body, [testGoal, testGoal2]);
             });
     });
 
-    it('updates a goal', () => {
-        goal1.completed = true;
-        return request  
-            .put(`/api/me/goals/${goal1._id}`)
+    it('updates completed status', () => {
+        return request
+            .post(`/api/me/goals/${testGoal._id}`)
             .set('Authorization', token)
-            .send(goal1)
+            .then(checkOk)
             .then(({ body }) => {
-                console.log('***update goal', body);
-                // assert.equal(body.completed, true);
+                assert.isOk(body.completed);
             });
     });
 });
