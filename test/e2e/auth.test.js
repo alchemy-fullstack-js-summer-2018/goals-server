@@ -20,7 +20,7 @@ describe('Auth Api', () => {
             .then(({ body }) => tokenOne = body.token);
     });
 
-    it('singup', () => {
+    it('signup', () => {
         assert.ok(tokenOne);
     });
 
