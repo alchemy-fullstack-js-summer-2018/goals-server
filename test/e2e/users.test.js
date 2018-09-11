@@ -33,7 +33,7 @@ describe('Users API', () => {
             .set('Authorization', token)
             .then(checkOk)
             .then(({ body }) => {
-                assert(body, [{ 
+                assert(body, [{
                     _id: testGoal.author,
                     completed: 0,
                     total: 1,
