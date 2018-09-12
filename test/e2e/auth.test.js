@@ -8,23 +8,6 @@ const userOne = {
   password: 'pelepele'
 };
 
-// const userTwo = {
-//   NAME: 'Antreo',
-//   email: 'antreo@antreo.com',
-//   password: 'pelepele'
-// };
-
-// const badPassword = {
-//   name: 'Antreo',
-//   email: 'antreo@antreo.com',
-//   password: 'pelepell',
-// };
-
-// const badEmail = {
-//   name: 'Antreo',
-//   email: 'antreq@antreo.com',
-//   password: 'pelepele'
-// };
 let tokenOne;
 
 describe('Auth API', () => {
