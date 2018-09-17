@@ -1,7 +1,7 @@
 const connect = require('../../lib/connect');
 const url = 'mongodb://localhost:27017/goalsRkewl';
 const mongoose = require('mongoose');
-const request = require('../request');
+const request = require('./request');
 
 before(() => connect(url));    
 after(() => mongoose.connection.close());
